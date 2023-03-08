@@ -90,6 +90,9 @@ def user_dashboard(request):
     name = "account/user_dashboard.html"
     title = "پنل کاربری"
 
+    if request.user.is_superuser:
+        return redirect('adminpanel:admin_dashboard')
+
     data = {"title": title}
 
     return render(request, name, data)

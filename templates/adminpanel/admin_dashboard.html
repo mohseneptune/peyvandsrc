@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block header %}
+{% include "navbar.html" %}
+{% include "message.html" %}
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+  <h4 class="border-bottom border-secondary my-4 pb-3">{{ title }}</h4>
+
+  <div class="list-group">
+    <a href="{% url 'account:phone_change' %}" class="list-group-item list-group-item-action"><b>ویرایش شماره موبایل</b></a>
+    <a href="{% url 'account:profile_change' %}" class="list-group-item list-group-item-action"><b>ویرایش حساب کاربری</b></a>
+    <a href="{% url 'adminpanel:requests_list' %}" class="list-group-item list-group-item-action"><b>لیست درخواست ها</b></a>
+    
+    <a href="{% url 'account:logout' %}" class="list-group-item list-group-item-action"><b>خروج</b></a>
+  </div>
+
+</div>
+{% endblock content %}
+
+{% block footer %}
+{% include "footer.html" %}
+{% endblock footer %}
