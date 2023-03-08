@@ -1,0 +1,24 @@
+:root {
+  --color1: #3b5998;
+  --color2: #8b9dc3;
+  --color3: #dfe3ee;
+  --color4: #f7f7f7;
+
+}
+
+body {
+  font-family: 'Lalezar', cursive;
+  background-color: var(--color3);
+}
+
+.navbar {
+  background-color: var(--color1);
+}
+
+main {
+  min-height: 100vh;
+}
+
+footer {
+  background-color: var(--color1);
+}
