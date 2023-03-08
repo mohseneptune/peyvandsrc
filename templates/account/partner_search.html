@@ -19,7 +19,7 @@
   <ul class="list-group">
     {% for partner in partners %}
     <li class="list-group-item">
-      <a href="#">{{ partner.user.fullname }}</a>
+      <a href="{% url 'account:user_detail' partner.user.pk %}">{{ partner.user.fullname }}</a>
     </li>
     {% endfor %}
   </ul>

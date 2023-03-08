@@ -18,4 +18,9 @@ urlpatterns = [
     path('khosousiaat_change/', views.khosousiaat_change, name='khosousiaat_change'),
     path('entezaaraat_change/', views.entezaaraat_change, name='entezaaraat_change'),
     path('partner_search/', views.partner_search, name='partner_search'),
+    path('user_detail/<int:pk>/', views.user_detail, name='user_detail'),
+
+    path("relation_request/<int:sender>/<int:reciver>/<str:action>/", views.relation_request, name="rr"),
+    path("sending_requests/", views.sending_requests, name="sending_requests"),
+    path("reciving_requests/", views.reciving_requests, name="reciving_requests"),
 ]

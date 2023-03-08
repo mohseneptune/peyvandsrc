@@ -20,9 +20,9 @@
     <a href="{% url 'account:khosousiaat_change' %}" class="list-group-item list-group-item-action"><b>ویرایش خصوصیات</b></a>
     <a href="{% url 'account:entezaaraat_change' %}" class="list-group-item list-group-item-action"><b>ویرایش انتظارات</b></a>
     <a href="{% url 'account:partner_search' %}" class="list-group-item list-group-item-action"><b>جستجوی همسان</b></a>
-    <a href="#" class="list-group-item list-group-item-action"><b>مشاهده درخواست های ارسالی</b></a>
-    <a href="#" class="list-group-item list-group-item-action"><b>مشاهده درخواست های دریافتی</b></a>
-    <a href="#" class="list-group-item list-group-item-action"><b>خروج</b></a>
+    <a href="{% url 'account:sending_requests' %}" class="list-group-item list-group-item-action"><b>مشاهده درخواست های ارسالی</b></a>
+    <a href="{% url 'account:reciving_requests' %}" class="list-group-item list-group-item-action"><b>مشاهده درخواست های دریافتی</b></a>
+    <a href="{% url 'account:logout' %}" class="list-group-item list-group-item-action"><b>خروج</b></a>
   </div>
 
 </div>

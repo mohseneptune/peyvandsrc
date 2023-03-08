@@ -1,19 +1,16 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
-from account.forms import (
-    RegisterForm,
-    OTPForm,
-    LoginForm,
-    PhoneChangeForm,
-    ProfileChangeForm,
-    KhosousiaatFrom,
-    EntezaaraatFrom,
-)
 from random import randint
-from core.otp import send_opt
-from django.contrib.auth import get_user_model, login, logout
-from account.models import Khosousiaat, Entezaaraat
 
+from django.contrib import messages
+from django.contrib.auth import get_user_model, login, logout
+from django.db.models import Q
+from django.shortcuts import get_object_or_404, redirect, render
+
+from account.forms import (EntezaaraatFrom, KhosousiaatFrom, LoginForm,
+                           OTPForm, PhoneChangeForm, ProfileChangeForm,
+                           RegisterForm)
+from account.models import Entezaaraat, Khosousiaat
+from chat.models import Relation
+from core.otp import send_opt
 
 User = get_user_model()
 
@@ -369,5 +366,127 @@ def partner_search(request):
         partners = partners.filter(din=entezaaraat.din)
 
     context = {"title": title, "partners": partners}
+
+    return render(request, name, context)
+
+
+
+def get_relation_state(user1, user2):
+    """
+    0 -> no relation
+    
+    11 -> user1 has sent request to user2 and status = SENT
+    12 -> user1 has sent reqeust to user2 and status = ACCEPTED
+    13 -> user1 has sent request to user2 and status = REJECTED
+    
+    21 -> user2 has sent request to user1 and status = SENT
+    22 -> user2 has sent request to user1 and status = ACCEPTED
+    23 -> user2 has sent request to user1 and status = REJECTED
+    """
+    relation = Relation.objects.filter(
+        Q(sender=user1, reciver=user2) | Q(sender=user2, reciver=user1)
+    ).first()
+
+    if not relation:
+        return 0
+
+    if relation.sender == user1:
+        if relation.status == '1':
+            return 11
+        if relation.status == '2':
+            return 12
+        if relation.status == '3':
+            return 13
+
+    elif relation.sender == user2:
+        if relation.status == '1':
+            return 21
+        if relation.status == '2':
+            return 22
+        if relation.status == '3':
+            return 23
+
+
+def user_detail(request, pk):
+    name = "account/user_detail.html"
+    title = "مشخصات کاربر"
+
+    user1 = request.user
+    user2 = get_object_or_404(User, pk=pk)
+
+    relation_state = get_relation_state(user1, user2)
+
+    # if user1 == user2: return redirect('account:profile')
+
+    khosousiaat = user2.khosousiaat
+    entezaaraat = user2.entezaaraat
+
+    context = {
+        "title": title,
+        "user2": user2,
+        "khosousiaat": khosousiaat,
+        "entezaaraat": entezaaraat,
+        "state": relation_state
+    }
+
+    return render(request, name, context)
+
+
+def relation_request(request, sender, reciver, action):
+    
+    sender = get_object_or_404(User, pk=sender)
+    reciver = get_object_or_404(User, pk=reciver)
+    user2_id = request.GET.get('user2_id')
+    
+    if action == 'create':
+        new_relation = Relation(sender=sender, reciver=reciver, status=1)
+        new_relation.save()
+
+    elif action == 'delete':
+        relation = Relation.objects.filter(sender=sender, reciver=reciver).first()
+        relation.delete()
+
+    elif action == 'accept':
+        relation = Relation.objects.filter(sender=sender, reciver=reciver).first()
+        relation.status = 2
+        relation.save()
+
+    elif action == 'reject':
+        relation = Relation.objects.filter(sender=sender, reciver=reciver).first()
+        relation.status = 3
+        relation.save()
+
+    elif action == 'sent':
+        relation = Relation.objects.filter(sender=sender, reciver=reciver).first()
+        relation.status = 1
+        relation.save()
+    
+    return redirect('account:user_detail', pk=user2_id)
+
+
+def sending_requests(request):
+    name = "account/sending_requests.html"
+    title = "مشاهده درخواست های ارسالی"
+
+    relations = Relation.objects.filter(sender=request.user)
+
+    context = {
+        'title': title,
+        'relations': relations
+    }
+
+    return render(request, name, context)
+
+
+def reciving_requests(request):
+    name = "account/reciving_requests.html"
+    title = "مشاهده درخواست های دریافتی"
+
+    relations = Relation.objects.filter(reciver=request.user)
+
+    context = {
+        'title': title,
+        'relations': relations
+    }
 
     return render(request, name, context)
