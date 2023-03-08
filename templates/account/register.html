@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block header %}
+{% include "navbar.html" %}
+{% include "message.html" %}
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+  <h4 class="border-bottom border-secondary my-4 pb-3">حساب کاربری جدید</h4>
+
+  <form method="post">
+    {% csrf_token %}
+    {% include "form.html" with form=form %}
+    <button type="submit" class="btn btn-primary btn-lg">ثبت نام</button>
+  </form>
+
+  <div class="my-4">
+    اگر حساب کاربری دارید <a href="{% url 'account:login' %}">وارد شوید.</a>
+  </div>
+
+</div>
+{% endblock content %}
+
+{% block footer %}
+{% include "footer.html" %}
+{% endblock footer %}

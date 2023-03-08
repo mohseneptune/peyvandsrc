@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block header %}
+{% include "navbar.html" %}
+{% include "message.html" %}
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+  <h4 class="border-bottom border-secondary my-4 pb-3">{{ title }}</h4>
+  <div> کد تایید برای شماره {{ phone }} فرستاده شد.</div>
+  <div>کد یکبار مصرف شما: {{ otp }}</div>
+
+  <form method="post">
+    {% csrf_token %}
+    {% include "form.html" with form=form %}
+    <button type="submit" class="btn btn-primary btn-lg">{{ title }}</button>
+  </form>
+
+</div>
+{% endblock content %}
+
+{% block footer %}
+{% include "footer.html" %}
+{% endblock footer %}

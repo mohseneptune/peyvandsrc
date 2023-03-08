@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block header %}
+{% include "navbar.html" %}
+{% include "message.html" %}
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+  <h4 class="border-bottom border-secondary my-4 pb-3">{{ title }}</h4>
+</div>
+{% endblock content %}
+
+{% block footer %}
+{% include "footer.html" %}
+{% endblock footer %}
