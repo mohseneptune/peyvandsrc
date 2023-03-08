@@ -10,8 +10,15 @@
 {% endblock header %}
 
 {% block content %}
-<div class="container mt-4">
-  <h3>صفحه اصلی پیوند آسمانی</h3>
+<div class="container">
+  <h4 class="border-bottom border-secondary my-4 pb-3">{{ title }}</h4>
+
+  <form method="post">
+    {% csrf_token %}
+    {% include "form.html" with form=form %}
+    <button type="submit" class="btn btn-primary btn-lg">ارسال کد تایید</button>
+  </form>
+
 </div>
 {% endblock content %}
 

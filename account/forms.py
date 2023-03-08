@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.core.validators import RegexValidator
+from account.models import Khosousiaat, Entezaaraat
 
 
 User = get_user_model()
@@ -9,7 +10,7 @@ User = get_user_model()
 class RegisterForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ("phone", "first_name", "last_name", "gender",)
+        fields = ("phone", "first_name", "last_name", "gender")
 
         widgets = {
             "phone": forms.TextInput(attrs={"class": "form-control"}),
@@ -78,10 +79,40 @@ class ProfileChangeForm(forms.ModelForm):
     
     class Meta:
         model = User
-        fields = ("first_name", "last_name", "gender",)
+        fields = ("first_name", "last_name", "gender")
 
         widgets = {
             "first_name": forms.TextInput(attrs={"class": "form-control"}),
             "last_name": forms.TextInput(attrs={"class": "form-control"}),
             "gender": forms.Select(attrs={"class": "form-select"}),
         }
+
+class KhosousiaatFrom(forms.ModelForm):
+
+    class Meta:
+        model = Khosousiaat
+        exclude = ('user', )
+
+    def __init__(self, *args, **kwargs):
+        super(KhosousiaatFrom, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            if visible.widget_type == 'select':
+                visible.field.widget.attrs['class'] = 'form-select'
+            else: visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs['placeholder'] = visible.label
+
+
+
+class EntezaaraatFrom(forms.ModelForm):
+
+    class Meta:
+        model = Entezaaraat
+        exclude = ('user', )
+
+    def __init__(self, *args, **kwargs):
+        super(EntezaaraatFrom, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            if visible.widget_type == 'select':
+                visible.field.widget.attrs['class'] = 'form-select'
+            else: visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs['placeholder'] = visible.label

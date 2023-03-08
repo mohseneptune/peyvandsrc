@@ -11,4 +11,11 @@ urlpatterns = [
     path('login/', views.login_, name='login'),
     path('login_verify/', views.login_verify, name='login_verify'),
     path('logout/', views.logout_, name='logout'),
+    path('profile/', views.profile, name='profile'),
+    path('profile_change/', views.profile_change, name='profile_change'),
+    path('phone_change/', views.phone_change, name='phone_change'),
+    path('phone_change_verify/', views.phone_change_verify, name='phone_change_verify'),
+    path('khosousiaat_change/', views.khosousiaat_change, name='khosousiaat_change'),
+    path('entezaaraat_change/', views.entezaaraat_change, name='entezaaraat_change'),
+    path('partner_search/', views.partner_search, name='partner_search'),
 ]

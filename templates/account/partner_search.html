@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block header %}
+{% include "navbar.html" %}
+{% include "message.html" %}
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+  <h4 class="border-bottom border-secondary my-4 pb-3">{{ title }}</h4>
+  {% if not partners %}
+  <h5>نتیجه ای پیدا نشد</h5>
+
+  {% else %}
+  <ul class="list-group">
+    {% for partner in partners %}
+    <li class="list-group-item">
+      <a href="#">{{ partner.user.fullname }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+</div>
+{% endblock content %}
+
+{% block footer %}
+{% include "footer.html" %}
+{% endblock footer %}
